@@ -1,4 +1,4 @@
-package ru.yandex.praktikum.pageobjects;
+package ru.yandex.praktikum;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Before;
@@ -8,6 +8,10 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.hamcrest.MatcherAssert;
+import pageObjects.MainPage;
+
+
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.fail;
 
@@ -17,10 +21,11 @@ import static org.junit.Assert.fail;
 public class MainPageAccordionTests {
 
     private WebDriver webDriver;
-    private final String mainPageUrl = "https://qa-scooter.praktikum-services.ru";//URL тестируемой страницы
+
     private final int numberOfElement; //Порядковый номер элемента аккордеона
     private final String expectedHeaderText;//Ожидаемый текст в заголовке элемента
     private final String expectedItemText;//Ожидаемый текст в раскрывающемся блоке элемента
+
 
     //Конструктор класса
     public MainPageAccordionTests(int numberOfAccordionItem, String expectedHeaderText, String expectedItemText) {
@@ -47,7 +52,7 @@ public class MainPageAccordionTests {
     public void startUp() {
         WebDriverManager.chromedriver().setup();
         this.webDriver = new ChromeDriver();
-        this.webDriver.get(this.mainPageUrl);
+
     }
 
     @After
@@ -62,19 +67,20 @@ public class MainPageAccordionTests {
     //Метод,который проверяет правильно ли работает выпадающий список
     public void checkAccordionIsCorrect() {
         MainPage mainPage = new MainPage(this.webDriver);
+        mainPage.openMainPage(); //открывветм главную страницу
         mainPage.clickOnCookieAcceptButton();//Клик по кнопке принятия cookie
-        mainPage.clickAccordionHeader(this.numberOfElement);//Клик по заголовку аккордеона, чтобы раскрыть элемент
+        mainPage.clickHeaderButton(this.numberOfElement);//Клик по заголовку , чтобы раскрыть элемент
         mainPage.waitForLoadItem(this.numberOfElement);//Ожидание загрузки текста внутри элемента
 
 
-        if (mainPage.isAccordionItemDisplayed(this.numberOfElement)) {
+        if (mainPage.isAnswerTextDisplayed(this.numberOfElement)) {
             MatcherAssert.assertThat("Заголовок выпадающего списка не верный: " + this.numberOfElement,
                     this.expectedHeaderText,
-                    equalTo(mainPage.getAccordionHeaderText(this.numberOfElement))
+                    equalTo(mainPage.getHeaderButtonText(this.numberOfElement))
             );
             MatcherAssert.assertThat("Не верный текст в блоке выпадающего списка: " + this.numberOfElement,
                     this.expectedItemText,
-                    equalTo(mainPage.getAccordionItemText(this.numberOfElement))
+                    equalTo(mainPage.getAnswerText(this.numberOfElement))
             );
         }
         else {

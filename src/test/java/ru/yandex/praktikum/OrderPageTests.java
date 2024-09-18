@@ -1,4 +1,4 @@
-package ru.yandex.praktikum.pageobjects;
+package ru.yandex.praktikum;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.hamcrest.MatcherAssert;
@@ -8,6 +8,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
+import pageObjects.OrderPage;
+import pageObjects.MainPage;
+
 
 import static org.hamcrest.CoreMatchers.containsString;
 
@@ -18,8 +21,8 @@ public class OrderPageTests {
     //Веб-драйвер
     private WebDriver webDriver;
 
-    //URL тестируемой страницы
-    private final String mainPageUrl = "https://qa-scooter.praktikum-services.ru";
+//    //URL тестируемой страницы
+//    private final String mainPageUrl = "https://qa-scooter.praktikum-services.ru";
 
     //Переменные для параметров теста - данных для оформления заказа
     private final String name;
@@ -72,7 +75,7 @@ public class OrderPageTests {
     public void startUp() {
         WebDriverManager.chromedriver().setup();
         this.webDriver = new ChromeDriver();    // здесь тест падает на подтверждении оформления заказа
-        this.webDriver.get(mainPageUrl);
+//        this.webDriver.get(mainPageUrl);
     }
 
     @After
@@ -85,9 +88,11 @@ public class OrderPageTests {
 
     @Test
     public void orderWithHeaderButtonWhenSuccess() {
-        MainPage mainPage = new MainPage(this.webDriver);
+       MainPage mainPage = new  MainPage(this.webDriver);
         OrderPage orderPage = new OrderPage(this.webDriver);
 
+
+        mainPage.openMainPage(); //открывветм главную страницу
         mainPage.clickOnCookieAcceptButton();
         mainPage.clickOrderButtonHeader();
         makeOrder(orderPage);
@@ -103,9 +108,11 @@ public class OrderPageTests {
 
     @Test
     public void orderWithBodyButtonWhenSuccess() {
-        MainPage mainPage = new MainPage(this.webDriver);
+        MainPage mainPage = new  MainPage(this.webDriver);
         OrderPage orderPage = new OrderPage(this.webDriver);
 
+
+        mainPage.openMainPage(); //открывветм главную страницу
         mainPage.clickOnCookieAcceptButton();
         mainPage.clickOrderButtonBody();
         makeOrder(orderPage);

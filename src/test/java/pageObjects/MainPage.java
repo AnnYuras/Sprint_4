@@ -1,4 +1,4 @@
-package ru.yandex.praktikum.pageobjects;
+package pageObjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -7,10 +7,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class MainPage {
     private final WebDriver driver;
 
+    //URL тестируемой страницы
+    private final String mainPageUrl = "https://qa-scooter.praktikum-services.ru";
+
     // Локатор для заголовков раскрывающегося блока
-    private final By accordionHeaders = By.className("accordion__button");
+    private final By headerButton = By.className("accordion__button");
+
     // Абзац в раскрывающемся блоке
-    private final By accordionItems = By.xpath(".//div[@class='accordion__panel']/p");
+    private final By answerText = By.xpath(".//div[@class='accordion__panel']/p");
+
     //Кнопка "Принять куки"
     private final By cookieAcceptButton = By.id("rcc-confirm-button");
 
@@ -26,10 +31,16 @@ public class MainPage {
         this.driver = driver;
     }
 
-    //Метод для ожидания загрузки элемента аккордеона
+    // Метод для открытия главной страницы
+    public void openMainPage() {
+        driver.get(mainPageUrl);
+    }
+
+
+    //Метод для ожидания загрузки элемента
     public void waitForLoadItem(int index) {
         new WebDriverWait(this.driver, 3)
-                .until(ExpectedConditions.visibilityOf(this.driver.findElements(this.accordionItems).get(index)));
+                .until(ExpectedConditions.visibilityOf(this.driver.findElements(this.answerText).get(index)));
     }
 
     // Метод для нажатия на кнопку "Принять куки"
@@ -38,24 +49,24 @@ public class MainPage {
     }
 
     //Метод для получения текста на заголовке блока
-    public String getAccordionHeaderText(int index) {
-        return this.driver.findElements(this.accordionHeaders).get(index).getText();
+    public String getHeaderButtonText(int index) {
+        return this.driver.findElements(this.headerButton).get(index).getText();
     }
 
     //Методя для получения текста из раскрывающегося блока
-    public String getAccordionItemText(int index) {
-        return this.driver.findElements(this.accordionItems).get(index).getText();
+    public String getAnswerText(int index) {
+        return this.driver.findElements(this.answerText).get(index).getText();
     }
 
     //Метод для нажатия на заголовок блока
 
-    public void clickAccordionHeader(int index) {
-        this.driver.findElements(this.accordionHeaders).get(index).click();
+    public void clickHeaderButton(int index) {
+        this.driver.findElements(this.headerButton).get(index).click();
     }
 
     //Метод для проверки раскрытия блока
-    public boolean isAccordionItemDisplayed(int index) {
-        return this.driver.findElements(this.accordionItems).get(index).isDisplayed();
+    public boolean isAnswerTextDisplayed(int index) {
+        return this.driver.findElements(this.answerText).get(index).isDisplayed();
     }
 
     public void clickOrderButtonBody() {
@@ -66,4 +77,6 @@ public class MainPage {
         this.driver.findElement(this.orderButtonHeader).click();
     }
 }
+
+
 

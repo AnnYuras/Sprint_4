@@ -1,10 +1,11 @@
-package ru.yandex.praktikum.pageobjects;
+package pageObjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
+
 public class OrderPage {
 
 
@@ -56,7 +57,7 @@ public class OrderPage {
     private final By colorLabels = By.xpath(".//div[starts-with(@class, 'Order_Checkboxes')]//label");
 
     //Кнопка "Заказать"
-    private final By orderButton = By.xpath(".//div[starts-with(@class, 'Order_Buttons')]/button[not(contains(@class,'Button_Inverted))]");
+    private final By orderButton = By.xpath("//button[contains(@class, 'Button_Button__ra12g') and contains(@class, 'Button_Middle__1CSJM') and text()='Заказать']");//исправила путь до кнопки заказать
 
     //Кнопка "Да" в окошке с подтверждением заказа
     private final By acceptOrderButton = By.xpath(".//div[starts-with(@class, 'Order_Modal')]//button[not(contains(@class,'Button_Inverted'))]");
@@ -94,6 +95,7 @@ public class OrderPage {
     public void setSurname(String surname) {
         this.webDriver.findElement(this.surnameInput).sendKeys(surname);
     }
+
     // Метод для установки значения в поле "Адрес"
     public void setAddress(String address) {
         this.webDriver.findElement(this.addressInput).sendKeys(address);
@@ -181,6 +183,5 @@ public class OrderPage {
     private void clickTermDropdown() {
         this.webDriver.findElement(this.termDropdownRoot).click();
     }
+
 }
-
-
